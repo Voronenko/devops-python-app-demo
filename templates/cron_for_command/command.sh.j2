@@ -1,0 +1,4 @@
+. {{project_virtualenv_directory}}/bin/activate
+cd {{project_directory}}
+USER={{project_user}} PYTHONPATH={{project_additional_py_path}} python manage.py {{command}} --settings=commands | grep -v -E '{{ignore_output}}'
+exit 0

@@ -1,0 +1,7 @@
+---
+
+  - debug: msg="{{processes}} and {{max_processes}}"
+
+  - name: UWSGI | creating /etc/uwsgi/vassals/{{project_user}}.ini
+    template: src="{{root_dir}}/templates/uwsgi/vassal.ini.j2" dest="/etc/uwsgi/vassals/{{project_user}}.ini" owner="{{project_user}}" group="{{project_user}}"
+    become: yes

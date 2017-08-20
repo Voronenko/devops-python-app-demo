@@ -1,0 +1,12 @@
+---
+
+  - set_fact:
+      server_name: "{{project_domain}}"
+
+  - name: UWSGI | creating /etc/nginx/sites-available/{{server_name}}.uwsgi.conf
+    template: src="{{root_dir}}/templates/nginx/nginx.uwsgi.conf.j2" dest="/etc/nginx/sites-available/{{server_name}}.uwsgi.conf"
+    become: yes
+
+  - name: UWSGI | enabling /etc/nginx/sites-available/{{server_name}}.uwsgi.conf
+    command: ln -fs /etc/nginx/sites-available/{{server_name}}.uwsgi.conf /etc/nginx/sites-enabled/{{server_name}}.uwsgi.conf creates=/etc/nginx/sites-enabled/{{server_name}}.uwsgi.conf
+    become: yes

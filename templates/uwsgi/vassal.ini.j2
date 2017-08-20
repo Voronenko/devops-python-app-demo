@@ -1,0 +1,49 @@
+# {{ansible_managed}}
+[uwsgi]
+socket = /tmp/uwsgi.{{project_user}}.sock
+chmod-socket = 666
+
+# the django-wsgi stuff
+chdir = /home/{{project_user}}/conf/
+pythonpath = {{project_directory}}
+wsgi-file = {{project_wsgi_file}}
+virtualenv = {{project_virtualenv_directory}}
+env = DJANGO_SETTINGS_MODULE=production
+env = USER={{project_user}}
+
+# http://uwsgi-docs.readthedocs.io/en/latest/Cheaper.html#busyness-cheaper-algorithm
+
+cheaper-algo = busyness
+
+processes = {{max_processes|default(2)}}
+
+cheaper = 2
+cheaper-initial = 2
+
+cheaper-overload = 2
+cheaper-busyness-max = 65
+cheaper-busyness-min = 30
+cheaper-busyness-multiplier = 12
+
+# add n workers at a time
+cheaper-step = 1
+
+idle = 1800
+
+# Required for reload-on-rss
+memory-report = true
+
+# In megabytes
+reload-on-rss=256
+
+max-requests=500
+
+# Logging:
+req-logger = file:/var/log/uwsgi/{{project_domain}}.timed.log
+
+# Non-request logging into syslog
+logger = syslog:uwsgi{{project_user}}
+
+logformat=%(addr) - %(user) %(time) "%(method) %(uri) %(proto)" %(status) %(size) %(micros)
+
+buffer-size = 65535

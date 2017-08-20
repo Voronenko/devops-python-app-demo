@@ -1,0 +1,35 @@
+---
+  - name: Project APP | Create user
+    user: name="{{project_user}}" comment="provisioned by deploy script" shell=/bin/bash
+    become: yes
+
+  - name: Project APP | chmod 755 /home/%s/
+    file:
+      path: "/home/{{project_user}}"
+      state: directory
+      mode: u=rwX,g=rX,o=rX
+      recurse: yes
+      owner: "{{project_user}}"
+      group: "{{project_user}}"
+    become: yes
+
+  - name: Project APP | create directories
+    file: path="/home/{{project_user}}/{{item}}" state=directory
+    with_items:
+      - "data/private_files"
+      - "wsgi"
+      - "conf"
+      - "scripts"
+      - "collected_static"
+    become: yes
+    become_user: "{{ project_user }}"
+
+    # conf and scripts contain passwords, must be kept private, data is obviously private as well
+
+  - name: Project APP | remove rights for OTHER for dirs
+    file: path="/home/{{project_user}}/{{item}}" state=directory recurse=yes owner="{{project_user}}" group="{{project_user}}" mode="o=rw,g=r,o="
+    with_items:
+      - "data"
+      - "conf"
+      - "scripts"
+    become: yes

@@ -1,0 +1,17 @@
+---
+  - name: Project APP |  ensure {{project_directory}} exists
+    file: path="{{project_directory}}" state=directory owner="{{project_user}}" group="{{project_user}}"
+    become: yes
+
+  - name:  Project APP | clone application, if distribution is based on repository
+    git: repo="{{project_repo}}" update="yes" dest="{{project_directory}}"
+    become: yes
+    become_user: "{{project_user}}"
+
+  - name: Project APP | Create settings
+    template: src="{{root_dir}}/templates/conf/{{item}}.j2" dest="{{project_conf_directory}}/{{item}}" owner="{{project_user}}" group="{{project_user}}" mode="u=rw,g=r,o="
+    become: yes
+    with_items:
+      - "debug.py"
+      - "production.py"
+      - "commands.py"

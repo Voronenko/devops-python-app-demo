@@ -1,0 +1,16 @@
+---
+
+  - name: Collect static |  PYTHONPATH={{project_additional_py_path}} python manage.py collectstatic --noinput --clear --settings=commands
+    shell: source {{project_virtualenv_directory}}/current/bin/activate && \
+           PYTHONPATH={{project_additional_py_path}} python manage.py collectstatic --noinput --clear --settings=commands \
+           executable=/bin/bash
+    args:
+      chdir: "{{project_directory}}"
+    become: yes
+    become_user: "{{project_user}}"
+
+  - name: Collect static |  set credentials
+    shell: "chmod -R a+rX collected_static"
+    args:
+      chdir: "/home/{{project_user}}"
+    become: yes

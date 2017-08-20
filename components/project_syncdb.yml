@@ -1,0 +1,11 @@
+---
+
+  - name: Project APP | Execute migrations PYTHONPATH={{project_additional_py_path}} python manage.py migrate {{project_migration_params | default('--fake-initial')}} --noinput --settings=commands
+    shell: source {{project_virtualenv_directory}}/current/bin/activate && \
+           PYTHONPATH={{project_additional_py_path}} python manage.py migrate {{project_migration_params | default('--fake-initial')}} --noinput --settings=commands \
+           executable=/bin/bash
+    args:
+      chdir: "{{project_directory}}"
+    when: option_skip_migrations is not defined
+    become: yes
+    become_user: "{{project_user}}"

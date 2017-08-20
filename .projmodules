@@ -1,0 +1,19 @@
+[submodule "roles/sa-postgres"]
+        path = boxes/roles/sa-postgres
+        url = git@github.com:softasap/sa-postgres.git
+[submodule "roles/sa-include"]
+        path = boxes/roles/sa-include
+        url = git@github.com:softasap/sa-include.git
+[submodule "roles/sa-python"]
+        path = boxes/roles/sa-python
+        url = git@github.com:softasap/sa-python.git
+[submodule "roles/sa-nginx"]
+        path = boxes/roles/sa-nginx
+        url = git@github.com:softasap/sa-nginx.git
+[submodule "roles/sa-supervisord"]
+        path = boxes/roles/sa-supervisord
+        url = git@github.com:softasap/sa-supervisord.git
+[submodule "roles/sa-uwsgi"]
+        path = boxes/roles/sa-uwsgi
+        url = git@github.com:softasap/sa-uwsgi.git
+

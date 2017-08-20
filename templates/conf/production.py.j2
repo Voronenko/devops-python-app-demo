@@ -1,0 +1,20 @@
+from sampleapp.settings import *
+
+BASE_URL = '{{project_domain}}'
+
+DATABASES = {
+  'default': {
+      'ENGINE': 'django.db.backends.postgresql_psycopg2',
+      'NAME': '{{database_user}}',
+      'USER': '{{database_user}}',
+      'PASSWORD': '{{database_password}}',
+      'HOST': '{{database_host}}',
+      'PORT': '',
+  }
+}
+
+SECRET_KEY = '{{project_secret}}'
+
+PRIVATE_FILES_ROOT = '/home/{{project_user}}/data/private_files/'
+
+STATIC_ROOT = '/home/{{project_user}}/collected_static/'

@@ -1,0 +1,49 @@
+- hosts: www
+  gather_facts: False
+
+  vars:
+    - root_dir: ..
+
+  vars_files:
+    - common_vars.yml
+
+  pre_tasks:
+    - debug: msg="Pre tasks section"
+
+    - name: ANSIBLE PYTHON | install python 2
+      raw: test -e /usr/bin/python || (apt -qqy update && apt install -qy python-minimal)
+      become: yes
+
+    - name:  UNPRIVILEGED USERS | Get acl dependency (ansible unprivileged user operations magic)
+      apt: pkg="acl"
+      become: yes
+
+    - name: gather facts
+      setup:
+
+  roles:
+     - {
+         role: "sa-python"
+       }
+     - {
+         role: "sa-postgres",
+         option_create_app_user: true,
+         db_host: "{{database_host}}",
+         db_user: "{{database_user}}",
+         db_password: "{{database_password}}",
+         db_name: "{{database_user}}",
+       }
+     - {
+        role: "sa-supervisord",
+        option_oldstyle_supervisord_compatibility: true
+       }
+     - {
+        role: "sa-uwsgi",
+        upstart_system: "supervisord"
+       }
+     - {
+        role: "sa-nginx"
+       }
+
+  tasks:
+    - debug: msg="Tasks section"

@@ -1,0 +1,5 @@
+---
+
+  - name: Project Tools | Create activate
+    template: src="{{root_dir}}/templates/activate.j2" dest="/home/{{project_user}}/activate" owner="{{project_user}}" group="{{project_user}}"
+    become: yes

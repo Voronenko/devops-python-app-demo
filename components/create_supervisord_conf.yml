@@ -1,0 +1,12 @@
+---
+  - name: SupervisorD | template /etc/supervisord/programs/{{project_user}}.conf
+    template: src="{{root_dir}}/templates/supervisord/user.conf.j2" dest="/etc/supervisord/programs/{{project_user}}.conf"
+    become: yes
+
+  - name: SupervisorD | supervisorctl reread
+    shell: supervisorctl reread
+    become: yes
+
+  - name: SupervisorD | supervisorctl update
+    shell: supervisorctl update
+    become: yes
