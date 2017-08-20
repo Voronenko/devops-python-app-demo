@@ -6,6 +6,7 @@ chmod-socket = 666
 # the django-wsgi stuff
 chdir = /home/{{project_user}}/conf/
 pythonpath = {{project_directory}}
+pythonpath = {{project_directory}}/sampleapp/apps
 wsgi-file = {{project_wsgi_file}}
 virtualenv = {{project_virtualenv_directory}}
 env = DJANGO_SETTINGS_MODULE=production
