@@ -6,11 +6,11 @@
            executable=/bin/bash
     args:
       chdir: "{{project_directory}}"
-    become: yes
+    become: "{{ 'no' if ansible_env.ANSIBLE_CONTAINER is defined else 'yes' }}"
     become_user: "{{project_user}}"
 
   - name: Collect static |  set credentials
     shell: "chmod -R a+rX collected_static"
     args:
       chdir: "/home/{{project_user}}"
-    become: yes
+    become: "{{ 'no' if ansible_env.ANSIBLE_CONTAINER is defined else 'yes' }}"

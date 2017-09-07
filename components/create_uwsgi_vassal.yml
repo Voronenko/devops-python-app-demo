@@ -4,4 +4,9 @@
 
   - name: UWSGI | creating /etc/uwsgi/vassals/{{project_user}}.ini
     template: src="{{root_dir}}/templates/uwsgi/vassal.ini.j2" dest="/etc/uwsgi/vassals/{{project_user}}.ini" owner="{{project_user}}" group="{{project_user}}"
-    become: yes
+    become: "{{ 'no' if ansible_env.ANSIBLE_CONTAINER is defined else 'yes' }}"
+
+  - name: UWSGI | creating log directory
+    file: path="/var/log/uwsgi" state="directory" mode="u=rw,g=rw,o=rw"
+    become: "{{ 'no' if ansible_env.ANSIBLE_CONTAINER is defined else 'yes' }}"
+
