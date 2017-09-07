@@ -40,7 +40,7 @@ reload-on-rss=256
 max-requests=500
 
 # Logging:
-req-logger = file:/var/log/uwsgi/{{project_domain}}.timed.log
+req-logger = file:/var/log/uwsgi/{{project_domain | default('default')}}.timed.log
 
 # Non-request logging into syslog
 logger = syslog:uwsgi{{project_user}}
