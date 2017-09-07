@@ -2,11 +2,11 @@
 
   - name: Project APP |  ensure {{project_virtualenv_directory}} exists
     file: path="{{project_virtualenv_directory}}" state=directory owner="{{project_user}}" group="{{project_user}}"
-    become: yes
+    become: "{{ 'no' if role_no_become is defined else 'yes' }}"
 
   - name: Project APP |  ensure {{project_virtualenv_directory}} zero state exists
     file: path="{{project_virtualenv_directory}}/0" state=directory owner="{{project_user}}" group="{{project_user}}"
-    become: yes
+    become: "{{ 'no' if role_no_become is defined else 'yes' }}"
 
   - name: Project APP | create_virtual_environment | detect next available virtual environment candidate
     shell: ls | grep -oh '^[0-9]*$' | sed 's/_/ _/' | sort -rn | awk '{printf "%d", $1 + 1; exit}'
@@ -14,7 +14,7 @@
       chdir: "{{project_virtualenv_directory}}"
     register: virtualenv_number_raw
     when: option_create_new_virtualenv
-    become: yes
+    become: "{{ 'no' if role_no_become is defined else 'yes' }}"
     become_user: "{{project_user}}"
 
   - set_fact:
@@ -27,7 +27,7 @@
   - name: Project APP | initialize new virtual environment at {{project_virtualenv_directory}}/{{virtualenv_number}}
     pip: requirements=./requirements.txt virtualenv="{{project_virtualenv_directory}}/{{virtualenv_number}}" chdir="{{project_directory}}"
     when: option_create_new_virtualenv
-    become: yes
+    become: "{{ 'no' if role_no_become is defined else 'yes' }}"
     become_user: "{{project_user}}"
 
   - name: Project APP | run python -m compileall
@@ -35,17 +35,17 @@
            python -m compileall \
            executable=/bin/bash
     when: option_create_new_virtualenv
-    become: yes
+    become: "{{ 'no' if role_no_become is defined else 'yes' }}"
     become_user: "{{project_user}}"
 
   - name: Project APP | Create symlink from {{project_virtualenv_directory}}/{{virtualenv_number}} to  {{project_virtualenv_directory}}/current
     file: src="{{project_virtualenv_directory}}/{{virtualenv_number}}" dest={{project_virtualenv_directory}}/current state=link
     when: option_create_new_virtualenv
-    become: yes
+    become: "{{ 'no' if role_no_become is defined else 'yes' }}"
     become_user: "{{project_user}}"
 
   - name: Project APP | write flag file with virtualenv_number as a hint
     shell: echo "{{virtualenv_number}}" > /home/{{project_user}}/.virtualenv_number
     when: option_create_new_virtualenv
-    become: yes
+    become: "{{ 'no' if role_no_become is defined else 'yes' }}"
     become_user: "{{project_user}}"

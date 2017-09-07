@@ -1,12 +1,12 @@
 ---
   - name: SupervisorD | template /etc/supervisord/programs/{{project_user}}.conf
     template: src="{{root_dir}}/templates/supervisord/user.conf.j2" dest="/etc/supervisord/programs/{{project_user}}.conf"
-    become: "{{ 'no' if ansible_connection == 'docker' or ansible_env.ANSIBLE_CONTAINER is defined else 'yes' }}"
+    become: "{{ 'no' if role_no_become is defined else 'yes' }}"
 
   - name: SupervisorD | supervisorctl reread
     shell: supervisorctl reread
-    become: "{{ 'no' if ansible_connection == 'docker' or ansible_env.ANSIBLE_CONTAINER is defined else 'yes' }}"
+    become: "{{ 'no' if role_no_become is defined else 'yes' }}"
 
   - name: SupervisorD | supervisorctl update
     shell: supervisorctl update
-    become: "{{ 'no' if ansible_connection == 'docker' or ansible_env.ANSIBLE_CONTAINER is defined else 'yes' }}"
+    become: "{{ 'no' if role_no_become is defined else 'yes' }}"
