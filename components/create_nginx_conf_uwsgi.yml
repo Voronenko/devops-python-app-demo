@@ -15,3 +15,8 @@
     file: path="/etc/nginx/sites-enabled/default.uwsgi.conf" state="absent"
     when: project_domain is defined
     become: "{{ 'no' if role_no_become is defined else 'yes' }}"
+
+  - name: UWSGI | Force nginx restart
+    service: name="nginx" state="restarted"
+    become: "{{ 'no' if role_no_become is defined else 'yes' }}"
+
