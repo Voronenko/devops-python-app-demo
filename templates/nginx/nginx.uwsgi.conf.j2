@@ -1,12 +1,14 @@
 server {
-    listen   80 default_server;
+    listen   80 {% if project_domain is not defined  %} default_server {% endif %};
+    {% if project_domain is defined  %}
     server_name  {{project_domain}};
+    {% endif %}
 
     keepalive_timeout 300;
 
     client_max_body_size 250m;
 
-    access_log  /var/log/nginx/{{project_domain}}.access.log;
+    access_log  /var/log/nginx/{{project_domain | default('default')}}.access.log;
 
     error_page 502 503 504 /50x.html;
 

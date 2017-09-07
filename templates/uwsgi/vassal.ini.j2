@@ -8,7 +8,7 @@ chdir = /home/{{project_user}}/conf/
 pythonpath = {{project_directory}}
 pythonpath = {{project_directory}}/sampleapp/apps
 wsgi-file = {{project_wsgi_file}}
-virtualenv = {{project_virtualenv_directory}}
+virtualenv = {{project_virtualenv_directory}}/current
 env = DJANGO_SETTINGS_MODULE=production
 env = USER={{project_user}}
 
@@ -40,7 +40,7 @@ reload-on-rss=256
 max-requests=500
 
 # Logging:
-req-logger = file:/var/log/uwsgi/{{project_domain}}.timed.log
+req-logger = file:/var/log/uwsgi/{{project_domain | default('default')}}.timed.log
 
 # Non-request logging into syslog
 logger = syslog:uwsgi{{project_user}}

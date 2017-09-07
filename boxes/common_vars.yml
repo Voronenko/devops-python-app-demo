@@ -16,7 +16,7 @@ project_wsgi_file: "{{project_directory}}/sampleapp/wsgi.py"
 
 project_repo: "https://github.com/voronenko-p/django-sample.git"
 
-project_domain: django.voronenko.net
+# project_domain: django.demo.test
 
 project_run_mode: uwsgi # gunicorn
 

@@ -1,6 +1,8 @@
 from sampleapp.settings import *
 
-BASE_URL = '{{project_domain}}'
+{% if project_domain is defined  %}
+BASE_URL = '{{ project_domain }}'
+{% endif %}
 
 DATABASES = {
   'default': {

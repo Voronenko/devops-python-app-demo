@@ -4,6 +4,10 @@
     file: path="{{project_virtualenv_directory}}" state=directory owner="{{project_user}}" group="{{project_user}}"
     become: yes
 
+  - name: Project APP |  ensure {{project_virtualenv_directory}} zero state exists
+    file: path="{{project_virtualenv_directory}}/0" state=directory owner="{{project_user}}" group="{{project_user}}"
+    become: yes
+
   - name: Project APP | create_virtual_environment | detect next available virtual environment candidate
     shell: ls | grep -oh '^[0-9]*$' | sed 's/_/ _/' | sort -rn | awk '{printf "%d", $1 + 1; exit}'
     args:

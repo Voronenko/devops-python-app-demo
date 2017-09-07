@@ -1,12 +1,16 @@
 server {
-    listen   80;
+    listen   80 {% if project_domain is not defined  %} default_server {% endif %};
+    {% if project_domain is defined  %}
     server_name  {{project_domain}};
+    {% endif %}
     rewrite ^ https://$server_name$request_uri? permanent;
 }
 
 server {
-    listen   443;
+    listen   443 {% if project_domain is not defined  %} default_server {% endif %};
+    {% if project_domain is defined  %} default_server {% endif %}
     server_name  {{project_domain}};
+    {% endif %}
     ssl on;
     ssl_certificate {{project_domain_ssl_cert}};
     ssl_certificate_key {{project_domain_ssl_key}};
