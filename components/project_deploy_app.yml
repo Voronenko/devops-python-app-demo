@@ -1,12 +1,12 @@
 ---
   - name: Project APP |  ensure {{project_directory}} exists
     file: path="{{project_directory}}" state=directory owner="{{project_user}}" group="{{project_user}}"
-    become: yes
+    become: "{{ 'no' if role_no_become is defined else 'yes' }}"
 
   - name:  Project APP | clone application, if distribution is based on repository
     git: repo="{{project_repo}}" update="yes" dest="{{project_directory}}"
     when: project_repo is defined
-    become: yes
+    become: "{{ 'no' if role_no_become is defined else 'yes' }}"
     become_user: "{{project_user}}"
 
   - name: Project APP | Copy application source
@@ -15,13 +15,13 @@
       dest: "{{project_directory}}"
       mode: push
     when: project_source_origin is defined
-    become: yes
+    become: "{{ 'no' if role_no_become is defined else 'yes' }}"
     become_user: "{{project_user}}"
 
 
   - name: Project APP | Create settings
     template: src="{{root_dir}}/templates/conf/{{item}}.j2" dest="{{project_conf_directory}}/{{item}}" owner="{{project_user}}" group="{{project_user}}" mode="u=rw,g=r,o="
-    become: yes
+    become: "{{ 'no' if role_no_become is defined else 'yes' }}"
     with_items:
       - "debug.py"
       - "production.py"

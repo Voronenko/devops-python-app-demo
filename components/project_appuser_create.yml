@@ -1,7 +1,7 @@
 ---
   - name: Project APP | Create user
     user: name="{{project_user}}" comment="provisioned by deploy script" shell=/bin/bash
-    become: "{{ 'no' if ansible_env.ANSIBLE_CONTAINER is defined else 'yes' }}"
+    become: "{{ 'no' if role_no_become is defined else 'yes' }}"
 
   - name: Project APP | chmod 755 /home/%s/
     file:
@@ -11,7 +11,7 @@
       recurse: yes
       owner: "{{project_user}}"
       group: "{{project_user}}"
-    become: "{{ 'no' if ansible_env.ANSIBLE_CONTAINER is defined else 'yes' }}"
+    become: "{{ 'no' if role_no_become is defined else 'yes' }}"
 
   - name: Project APP | create directories
     file: path="/home/{{project_user}}/{{item}}" state=directory
@@ -21,7 +21,7 @@
       - "conf"
       - "scripts"
       - "collected_static"
-    become: "{{ 'no' if ansible_env.ANSIBLE_CONTAINER is defined else 'yes' }}"
+    become: "{{ 'no' if role_no_become is defined else 'yes' }}"
     become_user: "{{ project_user }}"
 
     # conf and scripts contain passwords, must be kept private, data is obviously private as well
@@ -32,4 +32,4 @@
       - "data"
       - "conf"
       - "scripts"
-    become: "{{ 'no' if ansible_env.ANSIBLE_CONTAINER is defined else 'yes' }}"
+    become: "{{ 'no' if role_no_become is defined else 'yes' }}"

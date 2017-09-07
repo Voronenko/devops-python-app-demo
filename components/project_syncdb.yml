@@ -7,5 +7,5 @@
     args:
       chdir: "{{project_directory}}"
     when: option_skip_migrations is not defined
-    become: "{{ 'no' if ansible_env.ANSIBLE_CONTAINER is defined else 'yes' }}"
+    become: "{{ 'no' if role_no_become is defined else 'yes' }}"
     become_user: "{{project_user}}"
